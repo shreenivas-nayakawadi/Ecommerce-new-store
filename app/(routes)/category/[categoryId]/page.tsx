@@ -1,0 +1,92 @@
+import getCategory from "@/actions/get-category";
+import getColors from "@/actions/get-colors";
+import getProducts from "@/actions/get-products";
+import getSizes from "@/actions/get-sizes";
+
+import Billboard from "@/components/billboard";
+import Container from "@/components/ui/container";
+import NoResults from "@/components/ui/no-result";
+import ProductList from "./components/ProductList";
+
+import { Metadata } from "next";
+
+export const revalidate = 0;
+
+interface CategoryPageProps {
+  params: Promise<{
+    categoryId: string;
+  }>;
+  searchParams: Promise<{
+    colorId?: string;
+    sizeId?: string;
+  }>;
+}
+
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
+  const { categoryId } = await params;
+  const category = await getCategory(categoryId);
+
+  if (!category) {
+    return {
+      title: "Category Not Found",
+      description: "The requested category could not be found",
+    };
+  }
+
+  return {
+    title: `${category.name} Collection`,
+    description: `Browse our ${category.name} products`,
+  };
+}
+
+const CategoryPage = async ({
+  params,
+  searchParams,
+}: CategoryPageProps) => {
+  const { categoryId } = await params;
+  const { colorId, sizeId } = await searchParams;
+
+  const [category, allProducts, sizes, colors] = await Promise.all([
+    getCategory(categoryId),
+    getProducts({
+      categoryId,
+      ...(colorId && { colorId }),
+      ...(sizeId && { sizeId }),
+    }),
+    getSizes(),
+    getColors(),
+  ]);
+
+  if (!category) {
+    return (
+      <div className="bg-white">
+        <Container>
+          <div className="px-4 sm:px-6 pb-24">
+            <NoResults />
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white">
+      <Container>
+        <Billboard data={category.billboard} />
+        <div className="px-4 sm:px-6 pb-24">
+          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
+            <ProductList 
+              initialProducts={allProducts}
+              sizes={sizes}
+              colors={colors}
+            />
+          </div>
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default CategoryPage;
