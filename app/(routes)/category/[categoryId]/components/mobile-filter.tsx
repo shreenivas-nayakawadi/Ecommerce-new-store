@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import IconButton from "@/components/ui/icon-button";
 import { Color, Size } from "@/types";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { Plus, X } from "lucide-react";
+import { Filter as FilterIcon, X } from "lucide-react";
 import { useState } from "react";
 import Filter from "./filter";
 
@@ -30,22 +30,31 @@ const MobileFilters: React.FC<MobileFilterProps> = ({
 
   return (
     <>
-      <Button onClick={onOpen} className="flex items-center gap-x-2 lg:hidden">
-        Filters <Plus size={20} />
+      <Button 
+        onClick={onOpen} 
+        className="flex items-center gap-x-2 lg:hidden mb-6 bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
+      >
+        <FilterIcon size={20} />
+        Filters
       </Button>
       <Dialog
         open={open}
         as="div"
-        className="relative z-40 lg:hidden"
+        className="relative z-50 lg:hidden"
         onClose={onClose}
       >
-        <div className="fixed inset-0 bg-black bg-opacity-25" />
-        <div className="fixed inset-0 z-40 flex">
-          <DialogPanel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
-            <div className="flex items-center justify-end px-4">
-              <IconButton icon={<X size={15} />} onClick={onClose} />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="fixed inset-0 z-50 flex">
+          <DialogPanel className="relative ml-auto flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white shadow-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+              <IconButton 
+                icon={<X size={20} />} 
+                onClick={onClose}
+                className="bg-gray-100 hover:bg-gray-200"
+              />
             </div>
-            <div className="p-4">
+            <div className="p-6 space-y-6">
               <Filter
                 valueKey="sizeId"
                 name="Sizes"

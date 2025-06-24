@@ -9,21 +9,21 @@ interface GalleryTabProps {
 
 const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
   return (
-    <Tab className="relative flex aspect-square cursor-pointer items-center justify-center rounded-md bg-white">
+    <Tab className="relative flex aspect-square cursor-pointer items-center justify-center rounded-xl bg-white focus:outline-none">
       {({ selected }) => (
-        <div>
-          <span className="absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md">
+        <div className="w-full h-full">
+          <span className="absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-xl">
             <Image
               fill
               src={image.url}
-              alt=""
-              className="object-cover object-center"
+              alt="Product thumbnail"
+              className="object-cover object-center hover:scale-105 transition-transform duration-200"
             />
           </span>
           <span
             className={cn(
-              "absolute inset-0 rounded-md ring-2 ring-offset-2",
-              selected ? "ring-black" : "ring-transparent"
+              "absolute inset-0 rounded-xl ring-2 ring-offset-2 transition-all duration-200",
+              selected ? "ring-black shadow-lg" : "ring-transparent hover:ring-gray-300"
             )}
           />
         </div>

@@ -61,9 +61,9 @@ const CategoryPage = async ({
 
   if (!category) {
     return (
-      <div className="bg-white">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
         <Container>
-          <div className="px-4 sm:px-6 pb-24">
+          <div className="px-4 sm:px-6 pb-24 pt-16">
             <NoResults />
           </div>
         </Container>
@@ -72,10 +72,16 @@ const CategoryPage = async ({
   }
 
   return (
-    <div className="bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <Container>
         <Billboard data={category.billboard} />
         <div className="px-4 sm:px-6 pb-24">
+          <div className="mb-8">
+            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-4">
+              {category.name} Collection
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto" />
+          </div>
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             <ProductList 
               initialProducts={allProducts}

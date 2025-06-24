@@ -40,9 +40,9 @@ const ProductPage = async ({ params }: ProductPageProps) => {
 
   if (!product) {
     return (
-      <div className="bg-white">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
         <Container>
-          <div className="px-4 sm:px-6 pb-24">
+          <div className="px-4 sm:px-6 pb-24 pt-16">
             <NoResults />
           </div>
         </Container>
@@ -55,17 +55,19 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   });
 
   return (
-    <div className="bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <Container>
         <div className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-            <Gallery images={product.images} />
+          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
+            <div className="lg:sticky lg:top-24">
+              <Gallery images={product.images} />
+            </div>
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
               <Info data={product} />
             </div>
           </div>
-          <hr className="m-10" />
-          <ProductList title="Related Items" items={suggestedProducts} />
+          <hr className="my-16 border-gray-200" />
+          <ProductList title="You might also like" items={suggestedProducts.filter(item => item.id !== product.id)} />
         </div>
       </Container>
     </div>
